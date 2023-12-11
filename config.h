@@ -1,12 +1,14 @@
+#include <X11/XF86keysym.h>
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
+static const int user_bh = 25;
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11", "monospace:size=11" };
-static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=11";
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=8", "monospace:size=11" };
+static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=8";
 static const char col_gray1[]       = "#282828"; //222222
 static const char col_gray2[]       = "#504945"; //444444
 static const char col_gray3[]       = "#bdae93"; //bbbbbb
@@ -61,12 +63,19 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "kitty", NULL};
 static const char *firefox[] = {"firefox", NULL};
 static const char *lock[] = {"xsecurelock", NULL};
+static const char *pause_music[] = {"playerctl", "play-pause", NULL};
+static const char *next[] = {"playerctl", "next", NULL};
+static const char *previous[] = {"playerctl", "previous", NULL};
+
 
 static Key keys[] = {
   /* modifier                     key        function        argument */
+  { 0,                       XF86XK_AudioPlay, spawn,   {.v = pause_music } }, 
+  { 0,                       XF86XK_AudioNext, spawn,   {.v = next } }, 
+  { 0,                       XF86XK_AudioPrev, spawn,   {.v = previous } }, 
   { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
   { MODKEY,                       XK_b,      spawn,          {.v = firefox } },
-  { MODKEY,                       XK_F12,      spawn,          {.v = lock } },
+  { MODKEY,                       XK_F12,    spawn,          {.v = lock } },
   { MODKEY, 	                    XK_Return, spawn,          {.v = termcmd } },
   //	{ MODKEY,                       XK_b,      togglebar,      {0} },
   { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -90,15 +99,15 @@ static Key keys[] = {
   { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
   { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
   TAGKEYS(                        XK_1,                      0)
-    TAGKEYS(                        XK_2,                      1)
-    TAGKEYS(                        XK_3,                      2)
-    TAGKEYS(                        XK_4,                      3)
-    TAGKEYS(                        XK_5,                      4)
-    TAGKEYS(                        XK_6,                      5)
-    TAGKEYS(                        XK_7,                      6)
-    TAGKEYS(                        XK_8,                      7)
-    TAGKEYS(                        XK_9,                      8)
-    { MODKEY|ShiftMask,            XK_q,      quit,           {0} },
+  TAGKEYS(                        XK_2,                      1)
+  TAGKEYS(                        XK_3,                      2)
+  TAGKEYS(                        XK_4,                      3)
+  TAGKEYS(                        XK_5,                      4)
+  TAGKEYS(                        XK_6,                      5)
+  TAGKEYS(                        XK_7,                      6)
+  TAGKEYS(                        XK_8,                      7)
+  TAGKEYS(                        XK_9,                      8)
+  { MODKEY|ShiftMask,            XK_q,      quit,           {0} },
 };
 
 /* button definitions */
